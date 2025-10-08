@@ -54,9 +54,6 @@ int main()
         printf("Error:Divisible by zero.\n");
         return 0;
     }
-    // else{
-    //     printf("VALID");
-    // }
     printf("\n");
     int num[100];
     char ope[100];
@@ -77,16 +74,6 @@ int main()
         // printf("%s\n",pos);
         pos = strtok(NULL,d);
     }
-
-    // printf("Numbers are : ");
-    // for (int i = 0 ; i < ii; i++) {
-    //     printf("%d ", num[i]);
-    // }
-    // printf("\n");
-    // printf("Operators are : ");
-    // for (int i = 0 ; i < jj; i++) {
-    //     printf("%c ", ope[i]);
-    // }
 
     for (int i = 0 ; i < jj ; i++) {
         if (ope[i] == '*' || ope[i] == '/') {
