@@ -71,7 +71,6 @@ int main()
             ope[jj] = pos[0];
             jj++;
         }
-        // printf("%s\n",pos);
         pos = strtok(NULL,d);
     }
 
