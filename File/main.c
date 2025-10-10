@@ -2,6 +2,7 @@
 #include<string.h>
 #include <stdlib.h>
 
+#define FILENAME "user.txt"
 struct user {
     int id;
     char name[50];
@@ -13,7 +14,8 @@ void createuser() {
     FILE *fp, *check;
     printf("Please enter your id:\n");
     scanf("%d", &u.id);
-    check = fopen("user.txt", "r");
+    getchar();
+    check = fopen(FILENAME, "r");
     if (check != NULL) {
         int dup = 0;
         while (fscanf(check, "%d,%49[^,],%d\n", &temp.id, temp.name, &temp.age) == 3) {
@@ -29,11 +31,14 @@ void createuser() {
         }
     }
     printf("Please enter your name:\n");
-    scanf(" %[^\n]", u.name);
+    fgets(u.name,sizeof(u.name),stdin);
+    size_t len = strlen(u.name);
+    if (len > 0 && u.name[len - 1] == '\n')
+        u.name[len - 1] = '\0';
     printf("Please enter your age:\n");
     scanf("%d", &u.age);
 
-    fp = fopen("user.txt", "a");
+    fp = fopen(FILENAME, "a");
     if (fp == NULL) {
         printf("File could not be opened\n");
         return;
@@ -45,7 +50,7 @@ void createuser() {
 }
 
 void displayuser() {
-    FILE *fp = fopen("user.txt","r");
+    FILE *fp = fopen(FILENAME,"r");
     if (fp == NULL) {
         printf("File could not be opened\n");
         return;
@@ -59,7 +64,7 @@ void displayuser() {
 }
 
 void updateuser() {
-    FILE *fp = fopen("user.txt","r");
+    FILE *fp = fopen(FILENAME,"r");
     if (fp == NULL) {
         printf("File could not be opened\n");
         return;
@@ -69,11 +74,16 @@ void updateuser() {
     int id, found = 0;
     printf("Please enter your id to update:\n");
     scanf("%d",&id);
+    getchar();
     while (fscanf(fp,"%d,%49[^,],%d\n", &u.id, u.name, &u.age) == 3) {
         if (u.id == id) {
             found = 1;
             printf("Enter new name:\n");
-            scanf(" %[^\n]",u.name);
+            fgets(u.name,sizeof(u.name),stdin);
+            size_t len = strlen(u.name);
+            if (len > 0 && u.name[len - 1] == '\n') {
+                u.name[len - 1] = '\0';
+            }
             printf("Enter new age:\n");
             scanf("%d",&u.age);
         }
@@ -81,8 +91,8 @@ void updateuser() {
     }
     fclose(fp);
     fclose(temp);
-    remove("user.txt");
-    rename("temp.txt","user.txt");
+    remove(FILENAME);
+    rename("temp.txt",FILENAME);
     if (found) {
         printf("File updated successfully!\n");
     } else {
@@ -91,7 +101,7 @@ void updateuser() {
 }
 
 void removeuser() {
-    FILE *fp = fopen("user.txt","r");
+    FILE *fp = fopen(FILENAME,"r");
     if (fp == NULL) {
         printf("File could not be opened\n");
         return;
@@ -110,8 +120,8 @@ void removeuser() {
     }
     fclose(fp);
     fclose(temp);
-    remove("user.txt");
-    rename("temp.txt","user.txt");
+    remove(FILENAME);
+    rename("temp.txt",FILENAME);
 
     if (found) {
         printf("User removed successfully!\n");
@@ -136,7 +146,8 @@ int main() {
             case 2: displayuser(); break;
             case 3: updateuser(); break;
             case 4: removeuser(); break;
-            case 5: printf("Exiting...\n"); exit(0);
+            case 5: printf("Exiting...\n");
+            return 0;
             default: printf("Invalid choice.\n");
         }
     }
