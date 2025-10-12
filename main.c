@@ -20,27 +20,17 @@ void removechar(char arr[], int *size , int index) {
 int main()
 {
     char str[100];
-    char ref[100];
     fgets(str,sizeof(str),stdin);
     str[strcspn(str,"\n")] = '\0';
-    int n = strlen(str);
     int invalid = 0 , di = 0;
 
-    int j = 0;
     for(int i = 0 ; str[i] != '\0' ; i++)
     {
-        if(str[i] != ' ' && str[i] != '\n')
+        if(str[i] == '/' && str[i + 1] == '0')
         {
-            ref[j] = str[i];
-            j++;
-        }
-    }
-    ref[j] = '\0';
-    for(int i = 0 ; ref[i] != '\0'; i++) {
-        if(ref[i] == '/' && ref[i+1] == '0') {
             di++;
         }
-        if(!((ref[i] >= '0' && ref[i] <= '9') || (ref[i] == '+' || ref[i] == '-' || ref[i] == '*' || ref[i] == '/'))) {
+       if (!isdigit((unsigned char)str[i]) && !(str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/') && str[i] != ' '){
             invalid++;
         }
     }
@@ -54,24 +44,25 @@ int main()
         printf("Error:Divisible by zero.\n");
         return 0;
     }
-    printf("\n");
     int num[100];
     char ope[100];
-
-    char d[] = " ";
-    char *pos = strtok(str , d);
     int ii = 0;
     int jj = 0;
-    while(pos != NULL){
-        if(isdigit(pos[0]) || (pos[0]=='-' && isdigit(pos[1]))){
-            num[ii] = (atoi(pos));
-            ii++;
+   for (int i = 0; str[i] != '\0';) {
+        if (isdigit((unsigned char)str[i]) || (str[i] == '-' && isdigit((unsigned char)str[i + 1]))) {
+            int val = 0, sign = 1;
+            if (str[i] == '-') { sign = -1; i++; }
+           while (isdigit((unsigned char)str[i])) {
+                val = val * 10 + (str[i] - '0');
+                i++;
+            }
+            num[ii++] = val * sign;
+        } else if (str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/') {
+            ope[jj++] = str[i];
+            i++;
+        } else {
+            i++;
         }
-        else{
-            ope[jj] = pos[0];
-            jj++;
-        }
-        pos = strtok(NULL,d);
     }
 
     for (int i = 0 ; i < jj ; i++) {
@@ -104,7 +95,7 @@ int main()
             i--;
         }
     }
-    printf("\n");
     int res = num[0];
-    printf("Result = %d\n ", res);
+    printf("Result = %d\n", res);
+    return 0;
 }
