@@ -1,4 +1,10 @@
 #include<stdio.h>
+
+#define GRADE_A 85
+#define GRADE_B 70
+#define GRADE_C 50
+#define GRADE_D 35
+
 struct student {
     int rollno;
     char name[50];
@@ -17,19 +23,19 @@ float calculateaverage(float total){
 }
 
 char assigngrade(float average){
-    if (average >= 85) {
+    if (average >= GRADE_A) {
         return 'A';
     }
-    else if (average >= 70 && average < 85) {
+    else if (average >= GRADE_B) {
         return 'B';
     }
-    else if (average >= 50 && average < 70) {
+    else if (average >= GRADE_C) {
         return 'C';
     }
-    else if (average >= 35 && average < 50) {
+    else if (average >=GRADE_D) {
         return 'D';
     }
-    else if (average < 35) {
+    else{
         return 'F';
     }
 }
@@ -53,40 +59,43 @@ void displayperformance(char grade) {
     for (int i = 0 ; i < stars; i++) {
         printf("*");
     }
-    printf("\n");
+    printf("\n\n");
+
 }
-void printrollno(struct student s[],int index, int n) {
-    if (index == n) return;
-    printf("%d ",s[index].rollno);
-    printrollno(s,index+1,n);
+void printrollno(struct student students[],int index, int totalstudents) {
+    if (index == totalstudents) return;
+    printf("%d ",students[index].rollno);
+    printrollno(students,index+1,totalstudents);
 }
 int main() {
-    int n;
-    printf("Enter no of persons to analyse : \n");
-    scanf("%d",&n);
-    struct student s[n];
-    for (int i = 0 ; i < n ; i++) {
+    int totalstudents;
+    printf("Enter no of students to analyse : \n");
+    scanf("%d",&totalstudents);
+    struct student students[totalstudents];
+    for (int i = 0 ; i < totalstudents ; i++) {
         printf("\nEnter Roll, Name, and 3 subject marks: ");
-        scanf("%d %s %f %f %f", &s[i].rollno, s[i].name, &s[i].marks[0], &s[i].marks[1], &s[i].marks[2]);
-        s[i].total = calculatetotal(s[i].marks[0],s[i].marks[1],s[i].marks[2]);
-        s[i].average = calculateaverage(s[i].total);
-        s[i].grade = assigngrade(s[i].average);
+        scanf("%d", &students[i].rollno);
+        scanf(" %[^\n]", students[i].name);
+        scanf("%f %f %f",&students[i].marks[0], &students[i].marks[1], &students[i].marks[2]);
+        students[i].total = calculatetotal(students[i].marks[0], students[i].marks[1], students[i].marks[2]);
+        students[i].average = calculateaverage(students[i].total);
+        students[i].grade = assigngrade(students[i].average);
     }
         printf("\n");
-        for (int i = 0 ; i < n ; i++) {
-            printf("RollNo: %d\n",s[i].rollno);
-            printf("Name: %s\n",s[i].name);
-            printf("Total: %f\n",s[i].total);
-            printf("Average: %f\n",s[i].average);
-            printf("Grade: %c\n",s[i].grade);
-            if (s[i].grade == 'F') {
+        for (int i = 0 ; i < totalstudents ; i++) {
+            printf("RollNo: %d\n",students[i].rollno);
+            printf("Name: %s\n",students[i].name);
+            printf("Total: %f\n",students[i].total);
+            printf("Average: %f\n",students[i].average);
+            printf("Grade: %c\n",students[i].grade);
+            if (students[i].grade == 'F') {
                 continue;
             }
-            displayperformance(s[i].grade);
+            displayperformance(students[i].grade);
             printf("\n");
         }
         printf("List of roll numbers (via recursion)");
-        printrollno(s,0,n);
+        printrollno(students,0,totalstudents);
         printf("\n");
         return 0;
     }
