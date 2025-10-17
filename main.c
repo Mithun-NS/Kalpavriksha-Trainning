@@ -60,7 +60,6 @@ void displayperformance(char grade) {
         printf("*");
     }
     printf("\n\n");
-
 }
 void printrollno(struct student students[],int index, int totalstudents) {
     if (index == totalstudents) return;
