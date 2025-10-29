@@ -90,4 +90,3 @@ void applySmoothingFilter(int n, int mat[n][n]) {
         }
     }
 }
-}
