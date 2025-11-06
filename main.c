@@ -9,8 +9,7 @@ struct Product {
     int quantity;
 };
 
-// Function to view all products
-void viewAll(struct Product *p, int n) {
+void viewAllProducts(struct Product *p, int n) {
     if (n == 0) {
         printf("No products available.\n");
         return;
@@ -23,7 +22,6 @@ void viewAll(struct Product *p, int n) {
     }
 }
 
-// Function to add a new product
 void addProduct(struct Product **p, int *n) {
     *p = realloc(*p, (*n + 1) * sizeof(struct Product));
     if (*p == NULL) {
@@ -198,7 +196,7 @@ int main() {
                 addProduct(&inventory, &n);
                 break;
             case 2:
-                viewAll(inventory, n);
+                viewAllProducts(inventory, n);
                 break;
             case 3:
                 updateQuantity(inventory, n);
