@@ -1,8 +1,0 @@
-# Ignore CLion project files
-.idea/
-*.iml
-cmake-build-*/
-
-# Ignore OS files
-.DS_Store
-Thumbs.db
